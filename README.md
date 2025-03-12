@@ -255,3 +255,28 @@ esac
 ```
 
 Dan itu adalah step - step yang digunakan, untuk full script nya dapat dilihat pada file [dsotm.h](./soal_3/dsotm.sh)
+
+### Soal 4
+
+Pada soal ini terdapat 6 perintah yakni
+
+1. A) menampilkan Usage% dan RawUsage
+2. 
+3. 
+4.
+5.
+6.
+
+sehingga penyelesaian pada nomor 4 adalah berikut ini
+
+A)  Menampilkan Usage% tertinggi dan RawUsage tertinggi
+```
+#Usage% tertinggi
+awk -F ',' 'NR > 1 { if ($2+0 > max) { max=$2+0; name=$1 }}
+END { print "Highest Adjusted Usage:", name, "with", max "%" }' pokemon_usage.csv
+#RawUsage tertinggi
+awk -F ',' 'NR > 1 { if ($3+0 > max) { max=$3+0; name=$1 }}
+END { print "Highest Raw Usage:", name, "with", max, "uses" }' pokemon_usage.csv
+```
+
+B) 
