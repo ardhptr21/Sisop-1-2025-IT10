@@ -16,7 +16,7 @@ Pada soal nomer 1 diminta untuk menampilkan data
 3. Pembaca dengan rating tertinggi
 4. Genre paling populer di Asia setelah 2023
 
-sehingga penyelesaian pada nomor 1 adalah berikut ini
+Sehingga penyelesaian pada nomor 1 adalah berikut ini
 
 A) Pada soal ini diminta untuk menghitung jumlah baris di tablet ajaib yang menunjukkan buku-buku yang dibaca oleh Chris Hemsworth.
 ```
@@ -260,14 +260,14 @@ Dan itu adalah step - step yang digunakan, untuk full script nya dapat dilihat p
 
 Pada soal ini terdapat 6 perintah yakni
 
-1. A) menampilkan Usage% dan RawUsage
+1. Menampilkan Usage% dan RawUsage
 2. 
 3. 
 4.
 5.
 6.
 
-sehingga penyelesaian pada nomor 4 adalah berikut ini
+Sehingga penyelesaian pada nomor 4 adalah berikut ini
 
 A)  Menampilkan Usage% tertinggi dan RawUsage tertinggi
 ```
