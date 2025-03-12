@@ -75,7 +75,7 @@ function progress_bar {
 function show_time {
     while true; do
         clear
-        local part1=$(date +"%H:%M:%S")
+        local part1=$(TZ="Asia/Jakarta" date +"%H:%M:%S")
         local part2=$(TZ="Asia/Jakarta" date +"%A %B %d, %Y %Z (Asia/Jakarta)")
         echo -e "$part2"
         
