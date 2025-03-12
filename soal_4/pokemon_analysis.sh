@@ -28,6 +28,11 @@ if [[ $# -lt 1 ]]; then
     exit 1
 fi
 
+if [[ $1 == "-h" || $1 == "--help" ]]; then
+    help
+    exit 0
+fi
+
 FILE=$1
 shift
 
