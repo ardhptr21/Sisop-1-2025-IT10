@@ -8,6 +8,44 @@
 
 ## Reporting
 
+### Soal 1
+
+Pada soal nomer 1 diminta untuk menampilkan data 
+1. Chris Hemsworth membaca
+2. Rata-rata durasi membaca dengan Tablet
+3. Pembaca dengan rating tertinggi
+4. Genre paling populer di Asia setelah 2023
+
+Sehingga penyelesaian pada nomor 1 adalah berikut ini
+
+A) Pada soal ini diminta untuk menghitung jumlah baris di tablet ajaib yang menunjukkan buku-buku yang dibaca oleh Chris Hemsworth.
+```
+if [ "$pilihan" == "1" ]; then
+awk -F ',' 'NR > 1 && $2 == "Chris Hemsworth" {++n}
+END { print "Chris Hemsworth membaca", n, "buku." }' reading_data.csv
+```
+
+B) Pada soal ini diminta untuk menghitung rata-rata durasi membaca untuk buku-buku yang dibaca menggunakan Tablet
+```
+elif [ "$pilihan" == "2" ]; then
+awk -F ',' 'NR > 1 && $8 == "Tablet" { sum += $6; count++ }
+END { print "Rata-rata durasi membaca dengan Tablet adalah", sum/count, "menit." }' reading_data.csv
+```
+
+C) Pada soal ini diminta untuk mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca beserta nama dan judul bukunya 
+```
+elif [ "$pilihan" == "3" ]; then
+awk -F ',' 'NR > 1 && $7 > max { max = $7; name =  $2; book = $3 }
+END { print "Pembaca dengan rating tertinggi: "name, "-", book, "-", max }' reading_data.csv
+```
+
+D) Pada soal ini diminta untuk menganalisis data untuk menemukan genre yang paling sering dibaca di Asia setelah 31 Desember 2023, beserta jumlahnya
+```
+elif [ "$pilihan" == "4" ]; then
+awk -F ',' 'NR > 1 && $9 == "Asia" && $5 > "2023-12-31" { genres[$4]++ }
+END {max = 0; for (genre in genres) {if (genres[genre] > max) {max = genres[genre];most_common = genre;}} print "Genre paling populer di Asia setelah 2023 adalah " most_common " dengan " max " buku."}' reading_data.cs
+```
+
 ### Soal 3
 
 Dalam soal nomer 3 akan ada 5 hal yang perlu dilakukan yaitu
@@ -217,3 +255,28 @@ esac
 ```
 
 Dan itu adalah step - step yang digunakan, untuk full script nya dapat dilihat pada file [dsotm.h](./soal_3/dsotm.sh)
+
+### Soal 4
+
+Pada soal ini terdapat 6 perintah yakni
+
+1. Menampilkan Usage% dan RawUsage
+2. 
+3. 
+4.
+5.
+6.
+
+Sehingga penyelesaian pada nomor 4 adalah berikut ini
+
+A)  Menampilkan Usage% tertinggi dan RawUsage tertinggi
+```
+#Usage% tertinggi
+awk -F ',' 'NR > 1 { if ($2+0 > max) { max=$2+0; name=$1 }}
+END { print "Highest Adjusted Usage:", name, "with", max "%" }' pokemon_usage.csv
+#RawUsage tertinggi
+awk -F ',' 'NR > 1 { if ($3+0 > max) { max=$3+0; name=$1 }}
+END { print "Highest Raw Usage:", name, "with", max, "uses" }' pokemon_usage.csv
+```
+
+B) 
