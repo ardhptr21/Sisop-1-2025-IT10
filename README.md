@@ -25,7 +25,7 @@ awk -F ',' 'NR > 1 && $2 == "Chris Hemsworth" {++n}
 END { print "Chris Hemsworth membaca", n, "buku." }' reading_data.csv
 ```
 
-B) Pada soal ini diminta untuk menghitung rata-rata durasi membaca untuk buku-buku yang dibaca menggunakan “Tablet
+B) Pada soal ini diminta untuk menghitung rata-rata durasi membaca untuk buku-buku yang dibaca menggunakan Tablet
 ```
 elif [ "$pilihan" == "2" ]; then
 awk -F ',' 'NR > 1 && $8 == "Tablet" { sum += $6; count++ }
