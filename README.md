@@ -63,7 +63,7 @@ Semua program di soal ini berawal dari terminal.sh, yang akan berlanjut ke termi
 
 1. “First Step in a New World”
    
-Mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password untuk register sementara parameter untuk login berupa email dan password saja.
+Soal ini mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password. Lalu hasil dari input dimasukkan ke dalam Database yang berisikan data-data player.
 ```
 Database="data/player.csv"
 
@@ -74,7 +74,7 @@ read -sp "Enter Password: " password
 echo "$email,$username,$password_hash" >> "$Database"
 ```
 
-Semua data yang kita buat akan dimasukan ke dalam database:
+Sementara parameter untuk login.sh hanya berupa email dan password.
 
 ```
 Database="data/player.csv"
@@ -82,6 +82,7 @@ Database="data/player.csv"
 read -p "Enter your email: " email
 read -sp "Enter your password: " password
 ```
+register.sh serta login.sh lalu dihubungkan melalui interface terminal untuk meningkatkan kenyamanan player.
 
 
 2. “Radiant Genesis”
@@ -106,7 +107,7 @@ password_constraint()
  fi
 }
 ```
-Setelah itu kita bisa memanggil fungsi tersebut:
+Setelah itu kita memanggil fungsi tersebut:
 ```
 read -p "Enter Email Address: " email
 email_constraint "$email"
@@ -118,24 +119,24 @@ password_constraint ".$password"
 
 3. “Unceasing Spirit”
    
-Setelah itu kita harus mencegah duplikasi player dengan membuat email hanya bisa digunakan sekali saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep dan if statement:
+Pada soal ini kita harus mencegah duplikasi player dengan membuat email hanya bisa digunakan sekali pada saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep:
 ```
 if grep -q "$email," "$Database"; then
     echo "Email is already registered"
     exit 1
 fi
 ```
-Disini, jika email yang masuk terdapat dalam Database, maka program akan exit.
+Disini, jika email yang masuk terdapat dalam Database, maka program akan langsung keluar.
 
 
 4. “The Eternal Realm of Light"
    
-Selanjutnya, password yang masuk harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita masukan dalam register.sh serta login.sh untuk menjaga konsistensi program:
+Selanjutnya, password yang masuk pada register harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
 ```
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 echo ""
 ```
-Pastikan untuk meng-update redirect password ke Database-nya:
+Jangan lupa meng-update redirect password ke Database-nya:
 ```
 echo "$email,$username,$password_hash" >> "$Database"
 ```
