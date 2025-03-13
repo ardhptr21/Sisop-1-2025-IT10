@@ -1,5 +1,11 @@
-
 Database="data/player.csv"
+
+echo ""
+echo "Requirement:"
+echo "1) Email must contain '@' and '.' symbol."
+echo "2) Passwords must have a minimum of 8 characters, at least one lowercase letter"
+echo "   one uppercase letter, and one number."
+echo ""
 
 email_constraint()
 {
