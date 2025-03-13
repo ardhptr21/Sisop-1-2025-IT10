@@ -46,6 +46,144 @@ awk -F ',' 'NR > 1 && $9 == "Asia" && $5 > "2023-12-31" { genres[$4]++ }
 END {max = 0; for (genre in genres) {if (genres[genre] > max) {max = genres[genre];most_common = genre;}} print "Genre paling populer di Asia setelah 2023 adalah " most_common " dengan " max " buku."}' reading_data.cs
 ```
 
+### Soal 2
+
+Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
+1. “First Step in a New World”
+2. “Radiant Genesis”
+3. “Unceasing Spirit”
+4. “The Eternal Realm of Light”
+5. “The Brutality of Glass”
+6. “In Grief and Great Delight”
+7. “On Fate's Approach”
+8. “The Disfigured Flow of Time”
+9. “Irruption of New Color”
+
+Semua program di soal ini berawal dari terminal.sh, yang akan berlanjut ke terminal lainnya.
+
+1. “First Step in a New World”
+   
+Soal ini mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password. Lalu hasil dari input dimasukkan ke dalam Database yang berisikan data-data player.
+```
+Database="data/player.csv"
+
+read -p "Enter Email Address: " email
+read -p "Enter Username: " username
+read -sp "Enter Password: " password
+
+echo "$email,$username,$password_hash" >> "$Database"
+```
+
+Sementara parameter untuk login.sh hanya berupa email dan password.
+
+```
+Database="data/player.csv"
+
+read -p "Enter your email: " email
+read -sp "Enter your password: " password
+```
+register.sh serta login.sh lalu dihubungkan melalui interface terminal untuk meningkatkan kenyamanan player.
+
+
+2. “Radiant Genesis”
+   
+Disini kita harus menambahkan constraint pada email dan password. Hal ini bisa dilakukan dengan if statement:
+```
+email_constraint()
+{
+ if [[ ! "$1" =~ @.*\. ]]; then
+    echo "Invalid Email Format"
+    exit 1
+ fi
+}
+
+password_constraint()
+{
+ if [[ ! "$1" =~ [A-Z] || ! "$1" =~ [a-z] || ! "$1" =~ [0-9] || ${#1} -lt 8 ]]; then
+   echo "Invalid Password Format"
+   exit 1
+ else 
+   echo "Password meets all requirement"
+ fi
+}
+```
+Setelah itu kita memanggil fungsi tersebut:
+```
+read -p "Enter Email Address: " email
+email_constraint "$email"
+
+read -sp "Enter Password: " password
+password_constraint ".$password"
+```
+
+
+3. “Unceasing Spirit”
+   
+Pada soal ini kita harus mencegah duplikasi player dengan membuat email hanya bisa digunakan sekali pada saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep:
+```
+if grep -q "$email," "$Database"; then
+    echo "Email is already registered"
+    exit 1
+fi
+```
+Disini, jika email yang masuk terdapat dalam Database, maka program akan langsung keluar.
+
+
+4. “The Eternal Realm of Light"
+   
+Selanjutnya, password yang masuk pada register harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
+```
+password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
+echo ""
+```
+Jangan lupa meng-update redirect password ke Database-nya:
+```
+echo "$email,$username,$password_hash" >> "$Database"
+```
+
+
+5. “The Brutality of Glass"
+   
+Di soal ini kita harus melacak presentase penggunaan CPU dan model CPU dari device kita.
+```
+model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
+      echo -e "\e[31m$model\e[0m"
+```
+untuk presentase penggunaan CPU:
+```
+usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
+```
+
+
+6. “In Grief and Great Delight”
+   
+Kita juga harus melacak penggunaan RAM dan memastikan bahwa hasilnya memiliki output yang sama dengan package resource checker.
+```
+ram=$( free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
+```
+
+
+7. “On Fate's Approach”
+   
+Selanjutnya adalah membuat Crontab manager:
+```
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+echo "===================ARCAEA TERMINAL==================="
+echo ""
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+echo "  ID  |  OPTION"
+echo "_____________________________________________________"
+echo ""
+echo "  1   |  Add CPU - Core Monitor to Crontab"
+echo "  2   |  Add RAM - Fragement Monitor to Crontab"
+echo "  3   |  Remove CPU - Core Monitor from Crontab"
+echo "  4   |  Remove RAM - Fragement Monitor From Crontab"
+echo "  5   |  View All Scheduled Monitoring Job"
+echo "  6   |  Exit Arcaea Terminal"
+echo ""
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+```
+
 ### Soal 3
 
 Dalam soal nomer 3 akan ada 5 hal yang perlu dilakukan yaitu
