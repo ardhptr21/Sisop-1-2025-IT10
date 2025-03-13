@@ -1,5 +1,6 @@
 #!/bin/bash
 
+while true; do
 clear
 echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
 echo "==========ARCAEA TERMINAL=========="
@@ -17,12 +18,15 @@ echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾�
 read -p "Option: " option
 
 case $option in
-   1) bash register.sh
+   1) bash soal_2/register.sh
       ;;
-   2) bash login.sh
+   2) bash soal_2/login.sh
       ;;
    3) exit 0
       ;;
    *) echo "Invalid option!"
       ;;
 esac
+
+read -p "Press enter to return to terminal"
+done
