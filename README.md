@@ -62,6 +62,7 @@ Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
 Semua program dalam soal ini dapat diakses melalui terminal.sh.
 
 1. “First Step in a New World”
+   
 Mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password untuk register sementara parameter untuk login berupa email dan password saja.
 ```
 Database="data/player.csv"
@@ -83,6 +84,7 @@ read -sp "Enter your password: " password
 ```
 
 2. “Radiant Genesis”
+   
 Disini kita harus menambahkan constraint pada email dan password. Hal ini bisa dilakukan dengan if statement:
 ```
 email_constraint()
@@ -113,6 +115,7 @@ password_constraint ".$password"
 ```
 
 3. “Unceasing Spirit”
+   
 Setelah itu kita harus mencegah duplikasi player dengan membuat email hanya bisa digunakan sekali saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep dan if statement:
 ```
 if grep -q "$email," "$Database"; then
@@ -122,7 +125,8 @@ fi
 ```
 Disini, jika email yang masuk terdapat dalam Database, maka program akan exit.
 
-4. “The Eternal Realm of Light”
+4. “The Eternal Realm of Light"
+   
 Selanjutnya, password yang masuk harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita masukan dalam register.sh serta login.sh untuk menjaga konsistensi program:
 ```
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
@@ -133,7 +137,8 @@ Pastikan untuk meng-update redirect password ke Database-nya:
 echo "$email,$username,$password_hash" >> "$Database"
 ```
 
-5. “The Brutality of Glass”
+5. “The Brutality of Glass"
+   
 Di soal ini kita harus melacak presentase penggunaan CPU dan model CPU dari device kita.
 ```
 model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
@@ -145,12 +150,14 @@ usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{
 ```
 
 6. “In Grief and Great Delight”
+   
 Kita juga harus melacak penggunaan RAM dan memastikan bahwa hasilnya memiliki output yang sama dengan package resource checker.
 ```
 ram=$( free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
 ```
 
 7. “On Fate's Approach”
+   
 Selanjutnya adalah membuat Crontab manager:
 ```
 echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
