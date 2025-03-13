@@ -59,7 +59,7 @@ Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
 8. “The Disfigured Flow of Time”
 9. “Irruption of New Color”
 
-Semua program dalam soal ini dapat diakses melalui terminal.sh.
+Semua program di soal ini berawal dari terminal.sh, yang akan berlanjut ke terminal lainnya.
 
 1. “First Step in a New World”
    
@@ -82,6 +82,7 @@ Database="data/player.csv"
 read -p "Enter your email: " email
 read -sp "Enter your password: " password
 ```
+
 
 2. “Radiant Genesis”
    
@@ -114,6 +115,7 @@ read -sp "Enter Password: " password
 password_constraint ".$password"
 ```
 
+
 3. “Unceasing Spirit”
    
 Setelah itu kita harus mencegah duplikasi player dengan membuat email hanya bisa digunakan sekali saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep dan if statement:
@@ -124,6 +126,7 @@ if grep -q "$email," "$Database"; then
 fi
 ```
 Disini, jika email yang masuk terdapat dalam Database, maka program akan exit.
+
 
 4. “The Eternal Realm of Light"
    
@@ -137,6 +140,7 @@ Pastikan untuk meng-update redirect password ke Database-nya:
 echo "$email,$username,$password_hash" >> "$Database"
 ```
 
+
 5. “The Brutality of Glass"
    
 Di soal ini kita harus melacak presentase penggunaan CPU dan model CPU dari device kita.
@@ -149,12 +153,14 @@ untuk presentase penggunaan CPU:
 usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
 ```
 
+
 6. “In Grief and Great Delight”
    
 Kita juga harus melacak penggunaan RAM dan memastikan bahwa hasilnya memiliki output yang sama dengan package resource checker.
 ```
 ram=$( free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
 ```
+
 
 7. “On Fate's Approach”
    
