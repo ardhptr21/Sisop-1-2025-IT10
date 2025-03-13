@@ -46,6 +46,43 @@ awk -F ',' 'NR > 1 && $9 == "Asia" && $5 > "2023-12-31" { genres[$4]++ }
 END {max = 0; for (genre in genres) {if (genres[genre] > max) {max = genres[genre];most_common = genre;}} print "Genre paling populer di Asia setelah 2023 adalah " most_common " dengan " max " buku."}' reading_data.cs
 ```
 
+### Soal 2
+
+Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
+1. “First Step in a New World”
+2. “Radiant Genesis”
+3. “Unceasing Spirit”
+4. “The Eternal Realm of Light”
+5. “The Brutality of Glass”
+6. “In Grief and Great Delight”
+7. “On Fate's Approach”
+8. “The Disfigured Flow of Time”
+9. “Irruption of New Color”
+
+Semua program dalam soal ini dapat diakses melalui terminal.sh.
+
+1. “First Step in a New World”
+Mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password untuk register sementara parameter untuk login berupa email dan password saja.
+'''
+Database="data/player.csv"
+
+read -p "Enter Email Address: " email
+read -p "Enter Username: " username
+read -sp "Enter Password: " password
+
+echo "$email,$username,$password_hash" >> "$Database"
+'''
+
+Semua data yang kita buat akan dimasukan ke dalam database.
+
+'''
+Database="data/player.csv"
+
+read -p "Enter your email: " email
+read -sp "Enter your password: " password
+'''
+
+
 ### Soal 3
 
 Dalam soal nomer 3 akan ada 5 hal yang perlu dilakukan yaitu
