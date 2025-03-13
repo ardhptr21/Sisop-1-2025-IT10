@@ -1,5 +1,6 @@
 #!/bin/bash
 
+while true; do
 clear
 echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
 echo "==========ARCAEA TERMINAL=========="
@@ -26,3 +27,6 @@ case $option in
    *) echo "Invalid option!"
       ;;
 esac
+
+read -p "Press enter to return to terminal"
+done
