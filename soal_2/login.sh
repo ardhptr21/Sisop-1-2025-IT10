@@ -10,7 +10,7 @@ echo "$email,$username" > session.txt
 
 if grep -qr "$email,.*,$password_hash$" $Database;
 then
-   bash core_monitoring.sh
+   bash core_monitor.sh
 else
    echo "Invalid email or password."
 fi
