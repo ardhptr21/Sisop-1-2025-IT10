@@ -63,7 +63,7 @@ Semua program dalam soal ini dapat diakses melalui terminal.sh.
 
 1. “First Step in a New World”
 Mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password untuk register sementara parameter untuk login berupa email dan password saja.
-'''
+```
 Database="data/player.csv"
 
 read -p "Enter Email Address: " email
@@ -71,16 +71,16 @@ read -p "Enter Username: " username
 read -sp "Enter Password: " password
 
 echo "$email,$username,$password_hash" >> "$Database"
-'''
+```
 
 Semua data yang kita buat akan dimasukan ke dalam database.
 
-'''
+```
 Database="data/player.csv"
 
 read -p "Enter your email: " email
 read -sp "Enter your password: " password
-'''
+```
 
 
 ### Soal 3
