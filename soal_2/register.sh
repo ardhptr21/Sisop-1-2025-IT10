@@ -1,4 +1,4 @@
-Database="data/player.csv"
+DATABASE="data/player.csv"
 
 echo ""
 echo "Requirement:"
@@ -7,7 +7,7 @@ echo "2) Passwords must have a minimum of 8 characters, at least one lowercase l
 echo "   one uppercase letter, and one number."
 echo ""
 
-email_constraint()
+function email_constraint()
 {
  if [[ ! "$1" =~ @.*\. ]]; then
     echo "Invalid Email Format"
@@ -15,7 +15,7 @@ email_constraint()
  fi
 }
 
-password_constraint()
+function password_constraint()
 {
  if [[ ! "$1" =~ [A-Z] || ! "$1" =~ [a-z] || ! "$1" =~ [0-9] || ${#1} -lt 8 ]]; then
    echo "Invalid Password Format"
@@ -25,21 +25,21 @@ password_constraint()
  fi
 }
 
-read -p "Enter Email Address: " email
+read -p "Enter Email Address  : " email
 email_constraint "$email"
 
-if grep -q "$email," "$Database"; then
+if grep -q "$email," "$DATABASE"; then
     echo "Email is already registered"
     exit 1
 fi
 
-read -p "Enter Username: " username
+read -p "Enter username       : " username
 
-read -sp "Enter Password: " password
+read -sp "Enter Password       : " password
 password_constraint ".$password"
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 echo ""
 
-echo "$email,$username,$password_hash" >> "$Database"
+echo "$email,$username,$password_hash" >> "$DATABASE"
 
 echo "Registration success!"

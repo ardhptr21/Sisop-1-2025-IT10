@@ -1,19 +1,14 @@
-Database="data/player.csv"
+DATABASE="data/player.csv"
 
-read -p "Enter your email: " email
-read -sp "Enter your password: " password
+read -p "Enter your email        : " email
+read -sp "Enter your password     : " password
+
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
-echo ""
+username=$(grep "$email," "$DATABASE" | awk 'BEGIN {FS=","} {print $2}')
 
-username=$(grep "$email," "data/player.csv" | awk 'BEGIN {FS=","} {print $2}')
-echo "$email,$username" > session.txt
-
-if grep -qr "$email,.*,$password_hash$" $Database;
+if grep -qr "$email,.*,$password_hash$" $DATABASE;
 then
-   bash core_monitor.sh
+   bash scripts/manager.sh
 else
    echo "Invalid email or password."
 fi
-
-
-

@@ -1,13 +1,10 @@
 #!/bin/sh
 
-RAM=$( free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
-AVAILABLE=$( free -m | awk '/Mem:/ {print $7}' )
-CACHE=$( free -m | awk '/Mem:/ {print $6}' )
-TOTAL=$( free -m | awk '/Mem:/ {print $2}' )
+DIR=$(realpath $(dirname $0))
+BASE_DIR=$(realpath "$DIR/../logs")
 
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-echo "Total     : $TOTAL MB"
-echo "Usage     : $RAM"
-echo "Available : $AVAILABLE MB"
-echo "Cached    : $CACHE MB"
-echo "___________________________________"
+if [ ! -d "$BASE_DIR" ]; then
+    mkdir -p "$BASE_DIR"
+fi
+
+echo "[$(date "+%Y-%m-%d %H:%M:%S")] - Fragment Usage [$(awk '/MemFree/ {free=$2} /MemTotal/ {total=$2} END {print (1 - free/total) * 100}' /proc/meminfo)%] - Fragment Count [$(awk '/SReclaimable/ {print $2/1024}' /proc/meminfo) MB] - Details [Total: $(free -m | awk '/Mem:/ {print $2}') MB, Available: $(free -m | awk '/Mem:/ {print $7}') MB]" >> "$BASE_DIR/../logs/fragment.log"
