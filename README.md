@@ -415,11 +415,11 @@ Dan itu adalah step - step yang digunakan, untuk full script nya dapat dilihat p
 Pada soal ini terdapat 6 perintah yakni
 
 1. Menampilkan Usage% dan RawUsage
-2. 
-3. 
-4.
-5.
-6.
+2. Mengurutkan berdasarkan kolom yang diminta
+3. Mencari nama Pokemon tertentu
+4. Mencari Pokemon berdasarkan fitur nama dan type
+5. Mengecek semua kesalahan pengguna dan dapat memberikan penejelasan pada setiap kasus
+6. Membuat help screen
 
 Sehingga penyelesaian pada nomor 4 adalah berikut ini
 
@@ -433,4 +433,27 @@ awk -F ',' 'NR > 1 { if ($3+0 > max) { max=$3+0; name=$1 }}
 END { print "Highest Raw Usage:", name, "with", max, "uses" }' pokemon_usage.csv
 ```
 
-B) 
+B) Mengurutkan berdasarkan kolom yang diminta
+```
+
+```
+
+C) Mencari nama Pokemon tertentu
+```
+
+```
+
+D) Mencari Pokemon berdasarkan fitur nama dan type
+```
+
+```
+
+E) Mengecek semua kesalahan pengguna dan dapat memberikan penejelasan pada setiap kasus
+```
+
+```
+
+F) Membuat help screen
+```
+
+```
