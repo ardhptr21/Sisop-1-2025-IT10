@@ -59,7 +59,7 @@ Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
 8. “The Disfigured Flow of Time”
 9. “Irruption of New Color”
 
-Semua program di soal ini berawal dari terminal.sh, yang akan berlanjut ke terminal lainnya.
+Semua program di soal ini berawal dari terminal.sh.
 
 1. “First Step in a New World”
    
@@ -107,7 +107,7 @@ password_constraint()
  fi
 }
 ```
-Setelah itu kita memanggil fungsi tersebut:
+Setelah itu fungsi bisa dipanggil:
 ```
 read -p "Enter Email Address: " email
 email_constraint "$email"
@@ -115,23 +115,33 @@ email_constraint "$email"
 read -sp "Enter Password: " password
 password_constraint ".$password"
 ```
+Jika salah satu requiremment tidak terpenuhi, maka program akan mengeluarkan pesan:
+```
+Enter Email Address: inites1gmail.com
+Invalid Email Format
+```
+dan program akan langsung kembali ke terminal.sh.
 
 
 3. “Unceasing Spirit”
    
-Pada soal ini kita harus mencegah duplikasi player dengan membuat email hanya bisa digunakan sekali pada saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep:
+Pada soal ini kita harus mencegah duplikasi player dengan membuat email yang hanya bisa dipakai sekali pada saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep:
 ```
 if grep -q "$email," "$Database"; then
     echo "Email is already registered"
     exit 1
 fi
 ```
-Disini, jika email yang masuk terdapat dalam Database, maka program akan langsung keluar.
+Disini, jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan langsung keluar:
+```
+Enter Email Address: inites1@gmail.com
+Email is already registered
+```
 
 
 4. “The Eternal Realm of Light"
    
-Selanjutnya, password yang masuk pada register harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
+Selanjutnya, password yang dimasukan pada saat registrasi harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
 ```
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 echo ""
@@ -144,15 +154,18 @@ echo "$email,$username,$password_hash" >> "$Database"
 
 5. “The Brutality of Glass"
    
-Di soal ini kita harus melacak presentase penggunaan CPU dan model CPU dari device kita.
+Di soal ini diminta untuk melacak presentase penggunaan CPU dan model CPU dari device yang dipakai player.
 ```
 model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
-```
-untuk presentase penggunaan CPU:
-```
 usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
 ```
-untuk mengakses presentase penggunaan CPU dan model CPU dilakukan dengan switch case di core_manager.sh
+untuk mengakses presentase penggunaan CPU dan model CPU dilakukan dengan switch case di core_manager.sh. Berikut contoh outputnya:
+```
+Option: 1
+Your CPU usage percentage is 0%
+Option: 2
+11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
+```
 
 
 6. “In Grief and Great Delight”
@@ -164,7 +177,13 @@ aval=$( free -m | awk '/Mem:/ {print $7}' )
 chache=$( free -m | awk '/Mem:/ {print $6}' )
 total=$( free -m | awk '/Mem:/ {print $2}' )
 ```
-penggunaan RAM dapat diakses melalui frag_monitor.sh
+penggunaan RAM dapat diakses melalui frag_monitor.sh. Berikut contoh outputnya:
+```
+Total       | 3810 MB
+Usage       | 567/3810MB (14.88%)
+Available   | 3242 MB
+Cached      | 179 MB
+```
 
 
 7. “On Fate's Approach”
@@ -195,9 +214,39 @@ Di soal ini diharuskan untuk membuat interface yang menggabungkan setiap kompone
 
 Pertama-tama player akan bermula di terminal.sh, dimana player dapat melakukan registrasi dan login.
 ```
-```
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+==========ARCAEA TERMINAL==========
 
-Setelah player login, 
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+  ID  |  OPTION
+___________________________________
+
+  1   |  Register New Account
+  2   |  Login to Existing Account
+  3   |  Exit Arcaea Terminal
+
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+Option:
+```
+Setelah player login, player mendapatkan akses untuk melihat CPU usage serta model device mereka.
+```
+echo "Signed as $username"
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+echo "==========ARCAEA TERMINAL=========="
+echo ""
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+echo "  ID  |  OPTION"
+echo "___________________________________"
+echo ""
+echo "  1   |  Check CPU Usage Percentage"
+echo "  2   |  Check CPU Model"
+echo "  3   |  Frag Monitor"
+echo "  4   |  Open Crontab Manager"
+echo "  0   |  Exit"
+echo ""
+echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+read -p "Option: " option
+```
 
 
 ### Soal 3
