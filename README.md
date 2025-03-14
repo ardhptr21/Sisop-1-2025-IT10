@@ -147,25 +147,29 @@ echo "$email,$username,$password_hash" >> "$Database"
 Di soal ini kita harus melacak presentase penggunaan CPU dan model CPU dari device kita.
 ```
 model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
-      echo -e "\e[31m$model\e[0m"
 ```
 untuk presentase penggunaan CPU:
 ```
 usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
 ```
+untuk mengakses presentase penggunaan CPU dan model CPU dilakukan dengan switch case di core_manager.sh
 
 
 6. “In Grief and Great Delight”
    
 Kita juga harus melacak penggunaan RAM dan memastikan bahwa hasilnya memiliki output yang sama dengan package resource checker.
 ```
-ram=$( free -m | awk 'NR==2{printf "Memory Usage: %s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
+ram=$( free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
+aval=$( free -m | awk '/Mem:/ {print $7}' )
+chache=$( free -m | awk '/Mem:/ {print $6}' )
+total=$( free -m | awk '/Mem:/ {print $2}' )
 ```
+penggunaan RAM dapat diakses melalui frag_monitor.sh
 
 
 7. “On Fate's Approach”
    
-Selanjutnya adalah membuat Crontab manager:
+Pada soal ini membuat Crontab manager dengan pilihan untuk menambah/menghapus CPU/RAM usage serta melihat seluruh job monitoring:
 ```
 echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
 echo "===================ARCAEA TERMINAL==================="
@@ -183,6 +187,18 @@ echo "  6   |  Exit Arcaea Terminal"
 echo ""
 echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
 ```
+
+8. “The Disfigured Flow of Time”
+
+9. “Irruption of New Color”
+Di soal ini diharuskan untuk membuat interface yang menggabungkan setiap komponen dan menjadi titik masuk bagi para player.
+
+Pertama-tama player akan bermula di terminal.sh, dimana player dapat melakukan registrasi dan login.
+```
+```
+
+Setelah player login, 
+
 
 ### Soal 3
 
