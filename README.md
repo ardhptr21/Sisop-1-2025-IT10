@@ -115,7 +115,7 @@ email_constraint "$email"
 read -sp "Enter Password: " password
 password_constraint ".$password"
 ```
-Jika salah satu requiremment tidak terpenuhi, maka program akan mengeluarkan pesan:
+Jika salah satu requirement tidak terpenuhi, maka program akan mengeluarkan pesan:
 ```
 Enter Email Address: inites1gmail.com
 Invalid Email Format
@@ -132,7 +132,7 @@ if grep -q "$email," "$Database"; then
     exit 1
 fi
 ```
-Disini, jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan langsung keluar:
+Disini, jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan keluar dari program:
 ```
 Enter Email Address: inites1@gmail.com
 Email is already registered
@@ -156,15 +156,16 @@ echo "$email,$username,$password_hash" >> "$Database"
    
 Di soal ini diminta untuk melacak presentase penggunaan CPU dan model CPU dari device yang dipakai player.
 ```
-model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
-usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
+CPU_model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
+CPU_usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
+
+echo -e "CPU Usage Percentage : \e[34m$CPU\e[0m"
+echo -e "CPU Model : \e[34m$CPU_model\e[0m"
 ```
-untuk mengakses presentase penggunaan CPU dan model CPU dilakukan dengan switch case di core_manager.sh. Berikut contoh outputnya:
+Berikut contoh outputnya:
 ```
-Option: 1
-Your CPU usage percentage is 0%
-Option: 2
-11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
+CPU Usage Percentage : 0.1%
+CPU Model : 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
 ```
 
 
@@ -179,10 +180,10 @@ total=$( free -m | awk '/Mem:/ {print $2}' )
 ```
 penggunaan RAM dapat diakses melalui frag_monitor.sh. Berikut contoh outputnya:
 ```
-Total       | 3810 MB
-Usage       | 567/3810MB (14.88%)
-Available   | 3242 MB
-Cached      | 179 MB
+Total     : 3810 MB
+Usage     : 651/3810MB (17.09%)
+Available : 3158 MB
+Cached    : 198 MB
 ```
 
 
@@ -228,24 +229,25 @@ ___________________________________
 ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 Option:
 ```
-Setelah player login, player mendapatkan akses untuk melihat CPU usage serta model device mereka. Player juga dapat mengakses fragment monitor serta crontab manager.
+Setelah player selesai login, player mendapatkan akses untuk menuju crontab_manager.sh. Contoh saat player berhasil login:
 ```
-echo "Signed as $username"
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-echo "==========ARCAEA TERMINAL=========="
-echo ""
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-echo "  ID  |  OPTION"
-echo "___________________________________"
-echo ""
-echo "  1   |  Check CPU Usage Percentage"
-echo "  2   |  Check CPU Model"
-echo "  3   |  Frag Monitor"
-echo "  4   |  Open Crontab Manager"
-echo "  0   |  Exit"
-echo ""
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-read -p "Option: " option
+Signed as Arima Kana
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+===================ARCAEA TERMINAL===================
+
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+  ID  |  OPTION
+_____________________________________________________
+
+  1   |  Add CPU - Core Monitor to Crontab
+  2   |  Add RAM - Fragement Monitor to Crontab
+  3   |  Remove CPU - Core Monitor from Crontab
+  4   |  Remove RAM - Fragement Monitor From Crontab
+  5   |  View All Scheduled Monitoring Job
+  0   |  Exit Arcaea Terminal
+
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+Option:
 ```
 
 
