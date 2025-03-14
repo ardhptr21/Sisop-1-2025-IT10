@@ -228,7 +228,7 @@ ___________________________________
 ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 Option:
 ```
-Setelah player login, player mendapatkan akses untuk melihat CPU usage serta model device mereka.
+Setelah player login, player mendapatkan akses untuk melihat CPU usage serta model device mereka. Player juga dapat mengakses fragment monitor serta crontab manager.
 ```
 echo "Signed as $username"
 echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
