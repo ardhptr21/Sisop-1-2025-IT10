@@ -179,26 +179,30 @@ Total=$( free -m | awk '/Mem:/ {print $2}' )
    
 Pada soal ini membuat Crontab manager dengan pilihan untuk menambah/menghapus CPU/RAM usage serta melihat seluruh job monitoring:
 ```
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-echo "===================ARCAEA TERMINAL==================="
-echo ""
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
-echo "  ID  |  OPTION"
-echo "_____________________________________________________"
-echo ""
-echo "  1   |  Add CPU - Core Monitor to Crontab"
-echo "  2   |  Add RAM - Fragement Monitor to Crontab"
-echo "  3   |  Remove CPU - Core Monitor from Crontab"
-echo "  4   |  Remove RAM - Fragement Monitor From Crontab"
-echo "  5   |  View All Scheduled Monitoring Job"
-echo "  6   |  Exit Arcaea Terminal"
-echo ""
-echo "‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾"
+  echo "╔═════════════════════════════════════════════════════╗"
+  echo "║                  ARCAEA TERMINAL                    ║"
+  echo "╠════╦════════════════════════════════════════════════╣"
+  echo "║ ID ║ OPTION                                         ║"
+  echo "╠════╬════════════════════════════════════════════════╣"
+  echo "║  1 ║ Add CPU - Core Monitor to Crontab              ║"
+  echo "║  2 ║ Add RAM - Fragment Monitor to Crontab          ║"
+  echo "║  3 ║ Remove CPU - Core Monitor from Crontab         ║"
+  echo "║  4 ║ Remove RAM - Fragment Monitor from Crontab     ║"
+  echo "║  5 ║ View All Scheduled Monitoring Jobs             ║"
+  echo "║  6 ║ Exit Arcaea Terminal                           ║"
+  echo "╚════╩════════════════════════════════════════════════╝"
 ```
+
 
 8. “The Disfigured Flow of Time”
 
-9. “Irruption of New Color”
+Di soal ini, diharuskan untuk membuat 2 log file (core.log dan fragment.log) yang akan terhubung melalui program usage monitoring.
+```
+[2025-03-15 13:51:48] - Core Usage [0.0596187%] - Terminal Model [11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz]
+```
+
+10. “Irruption of New Color”
+
 Di soal ini diharuskan untuk membuat interface yang menggabungkan setiap komponen dan menjadi titik masuk bagi para player.
 
 Pertama-tama player akan bermula di terminal.sh, dimana player dapat melakukan registrasi dan login.
