@@ -59,6 +59,7 @@ Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
 8. “The Disfigured Flow of Time”
 9. “Irruption of New Color”
 
+Semua program di soal ini berawal dari terminal.sh.
 
 1. “First Step in a New World”
    
@@ -113,11 +114,12 @@ email_constraint "$email"
 read -sp "Enter Password: " password
 password_constraint ".$password"
 ```
-Jika salah satu requirement tidak terpenuhi, maka program akan mengeluarkan pesan dan kembali ke terminal:
+Jika salah satu requirement tidak terpenuhi, maka program akan mengeluarkan pesan:
 ```
 Enter Email Address: inites1gmail.com
 Invalid Email Format
 ```
+dan program akan langsung kembali ke terminal.sh.
 
 
 3. “Unceasing Spirit”
@@ -129,7 +131,7 @@ if grep -q "$email," "$Database"; then
     exit 1
 fi
 ```
-Jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan kembali ke terminal:
+Jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan keluar dari program:
 ```
 Enter Email Address: inites1@gmail.com
 Email is already registered
@@ -138,7 +140,7 @@ Email is already registered
 
 4. “The Eternal Realm of Light"
    
-Selanjutnya, password yang dimasukan pada saat registrasi harus dikonversi dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
+Selanjutnya, password yang dimasukan pada saat registrasi harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
 ```
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 ```
@@ -154,11 +156,6 @@ Di soal ini diminta untuk melacak presentase penggunaan CPU dan model CPU dari d
 ```
 CPU_model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
 CPU_usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
-```
-Berikut contoh outputnya:
-```
-CPU Usage Percentage : 1.5751%%
-CPU Model : 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
 ```
 
 
@@ -190,6 +187,54 @@ Pada soal ini membuat Crontab manager dengan pilihan untuk menambah/menghapus CP
   echo "║  6 ║ Exit Arcaea Terminal                           ║"
   echo "╚════╩════════════════════════════════════════════════╝"
 ```
+Lalu membuat fungsi yang ada pada pilihan tersebut.
+```
+function addCronCPU {
+  if crontab -l | grep -q "core_monitor.sh"; then
+    echo "Error: Core cpu is already monitored"
+    return 1
+  fi
+  local script="$(pwd)/scripts/core_monitor.sh"
+  local schedule='* * * * *'
+  (crontab -l; echo "$schedule $script") | crontab - 2>/dev/null
+}
+
+
+function addCronRAM {
+  if crontab -l | grep -q "frag_monitor.sh"; then
+    echo "Error: Fragment ram is already monitored"
+    return 1
+  fi
+  local script="$(pwd)/scripts/frag_monitor.sh"
+  local schedule='* * * * *'
+  (crontab -l; echo "$schedule $script") | crontab - 2>/dev/null
+}
+
+function removeCronCPU {
+  if ! crontab -l | grep -q "core_monitor.sh"; then
+    echo "Error: Core cpu is not monitored"
+    return 1
+  fi
+  crontab -l | grep -v "core_monitor.sh" | crontab -
+}
+
+function removeCronRAM {
+  if ! crontab -l | grep -q "frag_monitor.sh"; then
+    echo "Error: Fragment ram is not monitored"
+    return 1
+  fi
+  crontab -l | grep -v "frag_monitor.sh" | crontab -
+}
+
+function showCrontab {
+  if [ -z "$(crontab -l)" ]; then
+    echo "No scheduled monitoring jobs"
+  else
+    crontab -l
+  fi
+}
+```
+
 
 
 8. “The Disfigured Flow of Time”
@@ -205,40 +250,33 @@ Di soal ini diharuskan untuk membuat interface yang menggabungkan setiap kompone
 
 Pertama-tama player akan bermula di terminal.sh, dimana player dapat melakukan registrasi dan login.
 ```
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-==========ARCAEA TERMINAL==========
-
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-  ID  |  OPTION
-___________________________________
-
-  1   |  Register New Account
-  2   |  Login to Existing Account
-  3   |  Exit Arcaea Terminal
-
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+echo "╔════════════════════════════════════════════╗"
+echo "║              ARCAEA TERMINAL               ║"
+echo "╠════╦═══════════════════════════════════════╣"
+echo "║ ID ║ OPTION                                ║"
+echo "╠════╬═══════════════════════════════════════╣"
+echo "║  1 ║ Register New Account                  ║"
+echo "║  2 ║ Login to Existing Account             ║"
+echo "║  3 ║ Exit Arcaea Terminal                  ║"
+echo "╚════╩═══════════════════════════════════════╝"
 Option:
 ```
-Setelah player selesai login, player mendapatkan akses untuk menuju crontab_manager.sh. Contoh saat player berhasil login:
+Setelah player selesai login, player mendapatkan akses untuk menuju manager.sh. Contoh saat player berhasil login:
 ```
-Signed as Arima Kana
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-===================ARCAEA TERMINAL===================
-
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-  ID  |  OPTION
-_____________________________________________________
-
-  1   |  Add CPU - Core Monitor to Crontab
-  2   |  Add RAM - Fragement Monitor to Crontab
-  3   |  Remove CPU - Core Monitor from Crontab
-  4   |  Remove RAM - Fragement Monitor From Crontab
-  5   |  View All Scheduled Monitoring Job
-  0   |  Exit Arcaea Terminal
-
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-Option:
+  echo "╔═════════════════════════════════════════════════════╗"
+  echo "║                  ARCAEA TERMINAL                    ║"
+  echo "╠════╦════════════════════════════════════════════════╣"
+  echo "║ ID ║ OPTION                                         ║"
+  echo "╠════╬════════════════════════════════════════════════╣"
+  echo "║  1 ║ Add CPU - Core Monitor to Crontab              ║"
+  echo "║  2 ║ Add RAM - Fragment Monitor to Crontab          ║"
+  echo "║  3 ║ Remove CPU - Core Monitor from Crontab         ║"
+  echo "║  4 ║ Remove RAM - Fragment Monitor from Crontab     ║"
+  echo "║  5 ║ View All Scheduled Monitoring Jobs             ║"
+  echo "║  6 ║ Exit Arcaea Terminal                           ║"
+  echo "╚════╩════════════════════════════════════════════════╝"
 ```
+
 
 
 ### Soal 3
