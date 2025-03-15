@@ -103,7 +103,7 @@ function sorting {
     exit 1
   fi
 
-  awk -F ',' -v col=$(map_column $col) 'NR > 1 { print $0 | "sort -t, -k"col"nr" }' $FILE
+  awk -F ',' -v col=$(map_column $col) 'NR == 1 { print $0 } NR > 1 { print $0 | "sort -t, -k"col"nr" }' $FILE
 }
 
 # -- SOAL C --
@@ -114,7 +114,7 @@ function grepping {
   fi
 
   local name=$1
-  awk -F ',' -v name=$name 'NR > 1 && tolower($1) ~ tolower(name) { print $0 | "sort -t, -k1nr" }' $FILE
+  awk -F ',' -v name=$name 'NR == 1 { print $0 } NR > 1 && tolower($1) ~ tolower(name) { print $0 | "sort -t, -k1nr" }' $FILE
 }
 
 # -- SOAL D --
@@ -125,7 +125,7 @@ function filtering {
   fi
 
   local type=$1
-  awk -F ',' -v type=$type 'NR > 1 && (tolower($4) ~ tolower(type) || tolower($5) ~ tolower(type)) { print $0 | "sort -t, -k2nr" }' $FILE
+  awk -F ',' -v type=$type 'NR == 1 { print $0 } NR > 1 && (tolower($4) ~ tolower(type) || tolower($5) ~ tolower(type)) { print $0 | "sort -t, -k2nr" }' $FILE
 }
 
 

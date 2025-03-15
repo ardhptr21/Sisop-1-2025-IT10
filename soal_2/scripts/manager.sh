@@ -2,39 +2,47 @@
 
 function addCronCPU {
   if crontab -l | grep -q "core_monitor.sh"; then
-    echo "Error: Core cpu is already monitored"
+    echo -e "\e[31mError: Core cpu is already monitored\e[0m"
     return 1
   fi
   local script="$(pwd)/scripts/core_monitor.sh"
   local schedule='* * * * *'
   (crontab -l; echo "$schedule $script") | crontab - 2>/dev/null
+
+  echo -e "\e[32mSuccessfully added CPU monitoring\e[0m"
 }
 
 
 function addCronRAM {
   if crontab -l | grep -q "frag_monitor.sh"; then
-    echo "Error: Fragment ram is already monitored"
+    echo -e "\e[31mError: Fragment ram is already monitored\e[0m"
     return 1
   fi
   local script="$(pwd)/scripts/frag_monitor.sh"
   local schedule='* * * * *'
   (crontab -l; echo "$schedule $script") | crontab - 2>/dev/null
+
+  echo -e "\e[32mSuccessfully added RAM monitoring\e[0m"
 }
 
 function removeCronCPU {
   if ! crontab -l | grep -q "core_monitor.sh"; then
-    echo "Error: Core cpu is not monitored"
+    echo -e "\e[31mError: Core cpu is not monitored\e[0m"
     return 1
   fi
   crontab -l | grep -v "core_monitor.sh" | crontab -
+
+  echo -e "\e[32mSuccessfully removed CPU monitoring\e[0m"
 }
 
 function removeCronRAM {
   if ! crontab -l | grep -q "frag_monitor.sh"; then
-    echo "Error: Fragment ram is not monitored"
+    echo -e "\e[31mError: Fragment ram is not monitored\e[0m"
     return 1
   fi
   crontab -l | grep -v "frag_monitor.sh" | crontab -
+
+  echo -e "\e[32mSuccessfully removed RAM monitoring\e[0m"
 }
 
 function showCrontab {
@@ -48,9 +56,9 @@ function showCrontab {
 
 while true; do
 clear
-username=$(cut -d ',' -f2 session.txt)
+  username=$(echo $SESSION | cut -d ',' -f2)
 
-   echo "Signed as $username"
+  echo "Signed as $username"
   echo "╔═════════════════════════════════════════════════════╗"
   echo "║                  ARCAEA TERMINAL                    ║"
   echo "╠════╦════════════════════════════════════════════════╣"

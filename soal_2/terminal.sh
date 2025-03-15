@@ -20,6 +20,7 @@ case $option in
    2) bash login.sh
       ;;
    3) exit 0
+      # export SESSION=""
       ;;
    *) echo "Invalid option!"
       ;;

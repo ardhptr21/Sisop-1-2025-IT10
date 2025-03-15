@@ -19,28 +19,32 @@ Pada soal nomer 1 diminta untuk menampilkan data
 Sehingga penyelesaian pada nomor 1 adalah berikut ini
 
 A) Pada soal ini diminta untuk menghitung jumlah baris di tablet ajaib yang menunjukkan buku-buku yang dibaca oleh Chris Hemsworth.
-```
+
+```sh
 if [ "$pilihan" == "1" ]; then
 awk -F ',' 'NR > 1 && $2 == "Chris Hemsworth" {++n}
 END { print "Chris Hemsworth membaca", n, "buku." }' reading_data.csv
 ```
 
 B) Pada soal ini diminta untuk menghitung rata-rata durasi membaca untuk buku-buku yang dibaca menggunakan Tablet
-```
+
+```sh
 elif [ "$pilihan" == "2" ]; then
 awk -F ',' 'NR > 1 && $8 == "Tablet" { sum += $6; count++ }
 END { print "Rata-rata durasi membaca dengan Tablet adalah", sum/count, "menit." }' reading_data.csv
 ```
 
 C) Pada soal ini diminta untuk mencari siapa yang memberikan rating tertinggi untuk buku yang dibaca beserta nama dan judul bukunya 
-```
+
+```sh
 elif [ "$pilihan" == "3" ]; then
 awk -F ',' 'NR > 1 && $7 > max { max = $7; name =  $2; book = $3 }
 END { print "Pembaca dengan rating tertinggi: "name, "-", book, "-", max }' reading_data.csv
 ```
 
 D) Pada soal ini diminta untuk menganalisis data untuk menemukan genre yang paling sering dibaca di Asia setelah 31 Desember 2023, beserta jumlahnya
-```
+
+```sh
 elif [ "$pilihan" == "4" ]; then
 awk -F ',' 'NR > 1 && $9 == "Asia" && $5 > "2023-12-31" { genres[$4]++ }
 END {max = 0; for (genre in genres) {if (genres[genre] > max) {max = genres[genre];most_common = genre;}} print "Genre paling populer di Asia setelah 2023 adalah " most_common " dengan " max " buku."}' reading_data.cs
@@ -48,7 +52,8 @@ END {max = 0; for (genre in genres) {if (genres[genre] > max) {max = genres[genr
 
 ### Soal 2
 
-Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
+Dalam soal 2 terdapat 9 hal fungsionalitas harus kita lakukan:
+
 1. “First Step in a New World”
 2. “Radiant Genesis”
 3. “Unceasing Spirit”
@@ -64,7 +69,8 @@ Semua program di soal ini berawal dari terminal.sh.
 1. “First Step in a New World”
    
 Soal ini mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password. Lalu hasil dari input dimasukkan ke dalam Database yang berisikan data-data player.
-```
+
+```sh
 DATABASE="data/player.csv"
 
 read -p "Enter Email Address: " email
@@ -76,7 +82,7 @@ echo "$email,$username,$password_hash" >> "$Database"
 
 Sementara parameter untuk login.sh hanya berupa email dan password.
 
-```
+```sh
 Database="data/player.csv"
 
 read -p "Enter your email: " email
@@ -87,7 +93,8 @@ read -sp "Enter your password: " password
 2. “Radiant Genesis”
    
 Disini kita harus menambahkan constraint pada email dan password. Hal ini bisa dilakukan dengan if statement:
-```
+
+```sh
 function email_constraint()
 {
  if [[ ! "$1" =~ @.*\. ]]; then
@@ -106,74 +113,84 @@ function password_constraint()
  fi
 }
 ```
+
 Setelah itu fungsi bisa dipanggil:
-```
+
+```sh
 read -p "Enter Email Address: " email
 email_constraint "$email"
 
 read -sp "Enter Password: " password
 password_constraint ".$password"
+
 ```
+
 Jika salah satu requirement tidak terpenuhi, maka program akan mengeluarkan pesan:
-```
+
+```sh
 Enter Email Address: inites1gmail.com
 Invalid Email Format
 ```
-dan program akan langsung kembali ke terminal.sh.
 
+dan program akan langsung kembali ke terminal.sh.
 
 3. “Unceasing Spirit”
    
 Pada soal ini kita harus mencegah duplikasi player dengan membuat email yang hanya bisa dipakai sekali pada saat registrasi. Hal ini bisa dilakukan dengan menggunakan grep:
-```
+
+```sh
 if grep -q "$email," "$Database"; then
     echo "Email is already registered"
     exit 1
 fi
 ```
+
 Jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan keluar dari program:
-```
+
+```sh
 Enter Email Address: inites1@gmail.com
 Email is already registered
 ```
 
-
 4. “The Eternal Realm of Light"
    
 Selanjutnya, password yang dimasukan pada saat registrasi harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
-```
+
+```sh
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 ```
+
 Jangan lupa meng-update redirect password ke Database-nya:
-```
+
+```sh
 echo "$email,$username,$password_hash" >> "$DATABASE"
 ```
-
 
 5. “The Brutality of Glass"
    
 Di soal ini diminta untuk melacak presentase penggunaan CPU dan model CPU dari device yang dipakai player.
-```
+
+```sh
 CPU_model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
 CPU_usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
 ```
 
-
 6. “In Grief and Great Delight”
    
 Kita juga harus melacak penggunaan RAM dan memastikan bahwa hasilnya memiliki output yang sama dengan package resource checker.
-```
+
+```sh
 Fragment Usage=$( free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
 Available=$( free -m | awk '/Mem:/ {print $7}' )
 cache=$( free -m | awk '/Mem:/ {print $6}' )
 Total=$( free -m | awk '/Mem:/ {print $2}' )
 ```
 
-
 7. “On Fate's Approach”
    
 Pada soal ini membuat Crontab manager dengan pilihan untuk menambah/menghapus CPU/RAM usage serta melihat seluruh job monitoring:
-```
+
+```sh
   echo "╔═════════════════════════════════════════════════════╗"
   echo "║                  ARCAEA TERMINAL                    ║"
   echo "╠════╦════════════════════════════════════════════════╣"
@@ -187,8 +204,10 @@ Pada soal ini membuat Crontab manager dengan pilihan untuk menambah/menghapus CP
   echo "║  6 ║ Exit Arcaea Terminal                           ║"
   echo "╚════╩════════════════════════════════════════════════╝"
 ```
+
 Lalu membuat fungsi yang ada pada pilihan tersebut.
-```
+
+```sh
 function addCronCPU {
   if crontab -l | grep -q "core_monitor.sh"; then
     echo "Error: Core cpu is already monitored"
@@ -235,12 +254,11 @@ function showCrontab {
 }
 ```
 
-
-
 8. “The Disfigured Flow of Time”
 
 Di soal ini, diharuskan untuk membuat 2 log file (core.log dan fragment.log) yang akan terhubung melalui program usage monitoring.
-```
+
+```sh
 [2025-03-15 13:51:48] - Core Usage [0.0596187%] - Terminal Model [11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz]
 ```
 
@@ -249,7 +267,8 @@ Di soal ini, diharuskan untuk membuat 2 log file (core.log dan fragment.log) yan
 Di soal ini diharuskan untuk membuat interface yang menggabungkan setiap komponen dan menjadi titik masuk bagi para player.
 
 Pertama-tama player akan bermula di terminal.sh, dimana player dapat melakukan registrasi dan login.
-```
+
+```sh
 echo "╔════════════════════════════════════════════╗"
 echo "║              ARCAEA TERMINAL               ║"
 echo "╠════╦═══════════════════════════════════════╣"
@@ -261,8 +280,10 @@ echo "║  3 ║ Exit Arcaea Terminal                  ║"
 echo "╚════╩═══════════════════════════════════════╝"
 Option:
 ```
+
 Setelah player selesai login, player mendapatkan akses untuk menuju manager.sh. Contoh saat player berhasil login:
-```
+
+```sh
   echo "╔═════════════════════════════════════════════════════╗"
   echo "║                  ARCAEA TERMINAL                    ║"
   echo "╠════╦════════════════════════════════════════════════╣"
@@ -277,11 +298,9 @@ Setelah player selesai login, player mendapatkan akses untuk menuju manager.sh. 
   echo "╚════╩════════════════════════════════════════════════╝"
 ```
 
-
-
 ### Soal 3
 
-Dalam soal nomer 3 akan ada 5 hal yang perlu dilakukan yaitu
+Dalam soal nomer 3 akan ada 5 fungsionalitas yang perlu dilakukan yaitu
 
 1. Membuat fetching API
 2. Membuat progress bar
@@ -289,7 +308,7 @@ Dalam soal nomer 3 akan ada 5 hal yang perlu dilakukan yaitu
 4. Membuat tampilan custom cmatrix
 5. Membuat tampilan custom process list
 
-Untuk bisa melakukan pemilihan hal - hal program harus menerima sebuah named options `--play`, berikut adalah script untuk melakukan parsing args tersebut
+Untuk bisa melakukan pemilihan fungsionalitas program harus menerima sebuah named options `--play`, berikut adalah script untuk melakukan parsing args tersebut
 
 ```sh
 #!/bin/bash
@@ -491,7 +510,7 @@ Dan itu adalah step - step yang digunakan, untuk full script nya dapat dilihat p
 
 ### Soal 4
 
-Pada soal ini terdapat 6 perintah yakni
+Pada soal ini terdapat 6 fungsionalitas yakni
 
 1. Menampilkan Usage% dan RawUsage
 2. Mengurutkan berdasarkan kolom yang diminta
@@ -503,7 +522,8 @@ Pada soal ini terdapat 6 perintah yakni
 Sehingga penyelesaian pada nomor 4 adalah berikut ini
 
 A)  Menampilkan Usage% tertinggi dan RawUsage tertinggi
-```
+
+```sh
 function info {
   awk -F ',' 'NR > 1 { if ($2+0 > max) { max=$2+0; name=$1 }}
   END { print "Highest Adjusted Usage :", name, "with", max "%" }' $FILE
@@ -512,8 +532,13 @@ function info {
 }
 ```
 
+Dari script diatas pada intinya adalah pertama akan melakukan ignore terhadap baris pertama, karena baris pertama merupakan identify data dari file csv, lalu kemudian untuk mencari `Highes Adjusted Usage` melakukan perulangan untuk setiap datanya yaitu pada kolom kedua `$2+0`, fungsi +0 ini adalah agar column tersebut dianggap sebagai numeric value dan bukan sering value.
+
+Lalu untuk `Highest Raw Usage` masih sama logikanya, namun kali ini melakukan filtering pada kolom ketiga `$3+0`
+
 B) Mengurutkan berdasarkan kolom yang diminta
-```
+
+```sh
 function sorting {
   if [[ -z $1 ]]; then
     echo -e "\e[31mError: no column specified!\e[0m"
@@ -528,12 +553,35 @@ function sorting {
     exit 1
   fi
 
-  awk -F ',' -v col=$(map_column $col) 'NR > 1 { print $0 | "sort -t, -k"col"nr" }' $FILE
+  awk -F ',' -v col=$(map_column $col) 'NR == 1 { print $0 } NR > 1 { print $0 | "sort -t, -k"col"nr" }' $FILE
 }
 ```
 
-C) Mencari nama Pokemon tertentu
+Script function diatas akan membuat sebuah mapper terhadap kolom apa saja yang boleh dimasukkan, dan jika tidak sesuai maka akan dianggap tidak valid, lalu kemudian memasukkan pemrosesan menggunakan `awk` dimana setiap kolom yang diinput akan dimasukkan kedalam `map_column` function
+
+```sh
+function map_column {
+  local col=$1
+  case $col in
+    "name") echo 1;;
+    "usage") echo 2;;
+    "raw") echo 3;;
+    "hp") echo 6;;
+    "atk") echo 7;;
+    "def") echo 8;;
+    "spatk") echo 9;;
+    "spdef") echo 10;;
+    "speed") echo 11;;
+  esac
+}
 ```
+
+Yang fungsinya adalah mengembalikan urutan kolom tersebut di data csv yang ada. Kemudian ambil jika NR = 1 maka print baris tersebut, dan jika NR > 1 akan dilakukan print baris tersebut namun disorting terlebih dahulu menggunakan `sort` berdasarkan posisi kolomnya.
+
+
+C) Mencari nama Pokemon tertentu
+
+```sh
 function grepping {
   if [[ -z $1 ]]; then
     echo -e "\e[31mError: no name specified!\e[0m"
@@ -541,12 +589,15 @@ function grepping {
   fi
 
   local name=$1
-  awk -F ',' -v name=$name 'NR > 1 && tolower($1) ~ tolower(name) { print $0 | "sort -t, -k1nr" }' $FILE
+  awk -F ',' -v name=$name 'NR == 1 { print $0 } NR > 1 && tolower($1) ~ tolower(name) { print $0 | "sort -t, -k1nr" }' $FILE
 }
 ```
 
-D) Mencari Pokemon berdasarkan fitur nama dan type
-```
+Logikanya disini adalah dengan mencari nama yang valid dan case-insensitive, yang kemudian diurutkan berdasarkan kolom 1, yaitu usage nya.
+
+D) Mencari Pokemon berdasarkan fitur type
+
+```sh
 function filtering {
   if [[ -z $1 ]]; then
     echo -e "\e[31mError: no type specified!\e[0m"
@@ -554,12 +605,22 @@ function filtering {
   fi
 
   local type=$1
-  awk -F ',' -v type=$type 'NR > 1 && (tolower($4) ~ tolower(type) || tolower($5) ~ tolower(type)) { print $0 | "sort -t, -k2nr" }' $FILE
+  awk -F ',' -v type=$type 'NR == 1 { print $0 } NR > 1 && (tolower($4) ~ tolower(type) || tolower($5) ~ tolower(type)) { print $0 | "sort -t, -k2nr" }' $FILE
 }
 ```
 
+Logika tetap sama seperti sebelumnya, namun disini akan difilter berdasarkan tipenya, dimana setiap pokemon dapat memiliki lebih dari 3 tipe, sehingga akan dilakukan pengecekan dengan beberapa kondisi `or`, kemudian diurutkan berdasarkan RawUsage nya.
+
+E) Error handling
+
+Jika dilihat pada beberapa script sebelumnya, kami telah menerapkan error handling pada setiap argument yang ada.
+
 F) Membuat help screen
-```
+
+```sh
+help() {
+# pokemon ascii here (tidak dimasukkan karena terlalu weird)
+
 echo "Usage: $0 <file_name> [options]"
     echo "Options:"
     echo "  -h, --help          Display this help message."
@@ -579,3 +640,52 @@ echo "Usage: $0 <file_name> [options]"
     exit 0
 }
 ```
+
+Pada intinya function diatas akan melakukan handling untuk display help nya, dimana help tersebut akan muncul ketika kondisi sesuatu tidak terpenuhi. Dan untuk flag `--help` kami melakukan set nya dengan cara berikut ini
+
+```sh
+if [[ $# -lt 1 ]]; then
+    help
+    exit 1
+fi
+
+if [[ $1 == "-h" || $1 == "--help" ]]; then
+    help
+    exit 0
+fi
+
+FILE=$1
+shift
+
+if [[ ! -f $FILE ]]; then
+    echo -e "\e[31mError: file $FILE not found!\e[0m"
+    exit 1
+fi
+
+if [[ ${FILE: -4} != ".csv" ]]; then
+    echo -e "\e[31mError: file $FILE is not a CSV file!\e[0m"
+    exit 1
+fi
+```
+
+Function diatas akan melakukan parsing terhadap argument dan flag pada tahap awal, dimana mulai dari membaca initial `--help` atau `-h` ataupun melakukan validasi terhadap argument file yang diberikan.
+
+Dan kemudian berikut adalah `matcher` untuk setiap config flag yang akan dijalankan
+
+```sh
+while [[ $# -gt 0 ]];do
+  case "$1" in
+    -h|--help) help;;
+    -i|--info) info;;
+    -s|--sort) shift; sorting "$1" ;;
+    -g|--grep) shift; grepping "$1" ;;
+    -f|--filter) shift; filtering "$1" ;;
+    *) echo -e "\e[31mError: unknown option '$1'\e[0m"; help; exit 1;;
+  esac
+  shift
+done
+```
+
+Program while tersebut akan melakukan parsing terhadap flag yang diberikan ketika program dijalankan, dan akan melakukan pemanggilan function sesuai dengan kriteria yang sudah ada.
+
+Untuk script lengkap dapat dilihat pada file [pokemon_analysis.sh](./soal_4/pokemon_analysis.sh)

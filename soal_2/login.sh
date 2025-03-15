@@ -5,7 +5,8 @@ read -sp "Enter your password     : " password
 
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 username=$(grep "$email," "$DATABASE" | awk 'BEGIN {FS=","} {print $2}')
-echo "$email,$username" > session.txt
+
+export SESSION="$email,$username"
 
 if grep -qr "$email,.*,$password_hash$" $DATABASE;
 then
