@@ -59,7 +59,6 @@ Dalam soal 2 terdapat 9 hal yang harus kita lakukan:
 8. “The Disfigured Flow of Time”
 9. “Irruption of New Color”
 
-Semua program di soal ini berawal dari terminal.sh.
 
 1. “First Step in a New World”
    
@@ -114,12 +113,11 @@ email_constraint "$email"
 read -sp "Enter Password: " password
 password_constraint ".$password"
 ```
-Jika salah satu requirement tidak terpenuhi, maka program akan mengeluarkan pesan:
+Jika salah satu requirement tidak terpenuhi, maka program akan mengeluarkan pesan dan kembali ke terminal:
 ```
 Enter Email Address: inites1gmail.com
 Invalid Email Format
 ```
-dan program akan langsung kembali ke terminal.sh.
 
 
 3. “Unceasing Spirit”
@@ -131,7 +129,7 @@ if grep -q "$email," "$Database"; then
     exit 1
 fi
 ```
-Jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan keluar dari program:
+Jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan kembali ke terminal:
 ```
 Enter Email Address: inites1@gmail.com
 Email is already registered
@@ -140,7 +138,7 @@ Email is already registered
 
 4. “The Eternal Realm of Light"
    
-Selanjutnya, password yang dimasukan pada saat registrasi harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
+Selanjutnya, password yang dimasukan pada saat registrasi harus dikonversi dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
 ```
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 ```
