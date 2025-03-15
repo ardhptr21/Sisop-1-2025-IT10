@@ -65,7 +65,7 @@ Semua program di soal ini berawal dari terminal.sh.
    
 Soal ini mengharuskan untuk membuat register.sh dan login.sh dengan parameter berupa email, username, dan password. Lalu hasil dari input dimasukkan ke dalam Database yang berisikan data-data player.
 ```
-Database="data/player.csv"
+DATABASE="data/player.csv"
 
 read -p "Enter Email Address: " email
 read -p "Enter Username: " username
@@ -82,14 +82,13 @@ Database="data/player.csv"
 read -p "Enter your email: " email
 read -sp "Enter your password: " password
 ```
-register.sh serta login.sh lalu dihubungkan melalui interface terminal untuk meningkatkan kenyamanan player.
 
 
 2. “Radiant Genesis”
    
 Disini kita harus menambahkan constraint pada email dan password. Hal ini bisa dilakukan dengan if statement:
 ```
-email_constraint()
+function email_constraint()
 {
  if [[ ! "$1" =~ @.*\. ]]; then
     echo "Invalid Email Format"
@@ -97,7 +96,7 @@ email_constraint()
  fi
 }
 
-password_constraint()
+function password_constraint()
 {
  if [[ ! "$1" =~ [A-Z] || ! "$1" =~ [a-z] || ! "$1" =~ [0-9] || ${#1} -lt 8 ]]; then
    echo "Invalid Password Format"
@@ -132,7 +131,7 @@ if grep -q "$email," "$Database"; then
     exit 1
 fi
 ```
-Disini, jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan keluar dari program:
+Jika email yang dimasukan ternyata sudah terdapat dalam Database, maka program akan mengeluarkan pesan dan keluar dari program:
 ```
 Enter Email Address: inites1@gmail.com
 Email is already registered
@@ -144,11 +143,10 @@ Email is already registered
 Selanjutnya, password yang dimasukan pada saat registrasi harus diubah dengan algoritma hashing sha256sum. Program dibawah ini kita implementasikan dalam register.sh serta login.sh untuk menjaga konsistensi program:
 ```
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
-echo ""
 ```
 Jangan lupa meng-update redirect password ke Database-nya:
 ```
-echo "$email,$username,$password_hash" >> "$Database"
+echo "$email,$username,$password_hash" >> "$DATABASE"
 ```
 
 
@@ -158,13 +156,10 @@ Di soal ini diminta untuk melacak presentase penggunaan CPU dan model CPU dari d
 ```
 CPU_model=$( cat /proc/cpuinfo | grep 'name'| uniq | awk -F': ' '{print $2}' )
 CPU_usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
-
-echo -e "CPU Usage Percentage : \e[34m$CPU\e[0m"
-echo -e "CPU Model : \e[34m$CPU_model\e[0m"
 ```
 Berikut contoh outputnya:
 ```
-CPU Usage Percentage : 0.1%
+CPU Usage Percentage : 1.5751%%
 CPU Model : 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
 ```
 
@@ -173,17 +168,10 @@ CPU Model : 11th Gen Intel(R) Core(TM) i5-1155G7 @ 2.50GHz
    
 Kita juga harus melacak penggunaan RAM dan memastikan bahwa hasilnya memiliki output yang sama dengan package resource checker.
 ```
-ram=$( free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
-aval=$( free -m | awk '/Mem:/ {print $7}' )
-chache=$( free -m | awk '/Mem:/ {print $6}' )
-total=$( free -m | awk '/Mem:/ {print $2}' )
-```
-penggunaan RAM dapat diakses melalui frag_monitor.sh. Berikut contoh outputnya:
-```
-Total     : 3810 MB
-Usage     : 651/3810MB (17.09%)
-Available : 3158 MB
-Cached    : 198 MB
+Fragment Usage=$( free -m | awk 'NR==2{printf "%s/%sMB (%.2f%%)\n", $3,$2,$3*100/$2}' )
+Available=$( free -m | awk '/Mem:/ {print $7}' )
+cache=$( free -m | awk '/Mem:/ {print $6}' )
+Total=$( free -m | awk '/Mem:/ {print $2}' )
 ```
 
 
