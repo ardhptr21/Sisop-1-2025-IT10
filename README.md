@@ -522,12 +522,24 @@ function filtering {
 }
 ```
 
-E) Mengecek semua kesalahan pengguna dan dapat memberikan penejelasan pada setiap kasus
-```
-
-```
-
 F) Membuat help screen
 ```
-
+echo "Usage: $0 <file_name> [options]"
+    echo "Options:"
+    echo "  -h, --help          Display this help message."
+    echo "  -i, --info          Display the highest adjusted and raw usage."
+    echo "  -s, --sort <col>    Sort the data by the specified column."
+    echo "    name              Sort by Pokemon name."
+    echo "    usage             Sort by Adjusted Usage."
+    echo "    raw               Sort by Raw Usage."
+    echo "    hp                Sort by HP."
+    echo "    atk               Sort by Attack."
+    echo "    def               Sort by Defense."
+    echo "    spatk             Sort by Special Attack."
+    echo "    spdef             Sort by Special Defense."
+    echo "    speed             Sort by Speed."
+    echo "  -g, --grep <name>   Search for a specific Pokémon sorted by usage."
+    echo "  -f, --filter <type> Filter by type of Pokémon sorted by usage."
+    exit 0
+}
 ```
