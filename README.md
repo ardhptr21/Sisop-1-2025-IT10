@@ -464,27 +464,58 @@ Sehingga penyelesaian pada nomor 4 adalah berikut ini
 
 A)  Menampilkan Usage% tertinggi dan RawUsage tertinggi
 ```
-#Usage% tertinggi
-awk -F ',' 'NR > 1 { if ($2+0 > max) { max=$2+0; name=$1 }}
-END { print "Highest Adjusted Usage:", name, "with", max "%" }' pokemon_usage.csv
-#RawUsage tertinggi
-awk -F ',' 'NR > 1 { if ($3+0 > max) { max=$3+0; name=$1 }}
-END { print "Highest Raw Usage:", name, "with", max, "uses" }' pokemon_usage.csv
+function info {
+  awk -F ',' 'NR > 1 { if ($2+0 > max) { max=$2+0; name=$1 }}
+  END { print "Highest Adjusted Usage :", name, "with", max "%" }' $FILE
+  awk -F ',' 'NR > 1 { if ($3+0 > max) { max=$3+0; name=$1 }}
+  END { print "Highest Raw Usage      :", name, "with", max, "uses" }' $FILE
+}
 ```
 
 B) Mengurutkan berdasarkan kolom yang diminta
 ```
+function sorting {
+  if [[ -z $1 ]]; then
+    echo -e "\e[31mError: no column specified!\e[0m"
+    exit 1
+  fi
 
+  local valid_cols=("name" "usage" "raw" "hp" "atk" "def" "spatk" "spdef" "speed")
+  local col=$1
+
+  if [[ ! " ${valid_cols[@]} " =~ " ${col} " ]]; then
+    echo -e "\e[31mError: invalid column '$col'\e[0m"
+    exit 1
+  fi
+
+  awk -F ',' -v col=$(map_column $col) 'NR > 1 { print $0 | "sort -t, -k"col"nr" }' $FILE
+}
 ```
 
 C) Mencari nama Pokemon tertentu
 ```
+function grepping {
+  if [[ -z $1 ]]; then
+    echo -e "\e[31mError: no name specified!\e[0m"
+    exit 1
+  fi
 
+  local name=$1
+  awk -F ',' -v name=$name 'NR > 1 && tolower($1) ~ tolower(name) { print $0 | "sort -t, -k1nr" }' $FILE
+}
 ```
 
 D) Mencari Pokemon berdasarkan fitur nama dan type
 ```
+function filtering {
+  if [[ -z $1 ]]; then
+    echo -e "\e[31mError: no type specified!\e[0m"
+    exit 1
+  fi
 
+  local type=$1
+  awk -F ',' -v type=$type 'NR > 1 && (tolower($4) ~ tolower(type) || tolower($5) ~ tolower(type)) { print $0 | "sort -t, -k2nr" }' $FILE
+}
 ```
 
 E) Mengecek semua kesalahan pengguna dan dapat memberikan penejelasan pada setiap kasus
