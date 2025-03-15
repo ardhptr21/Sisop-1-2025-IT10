@@ -2,7 +2,6 @@
 
 while true; do
 clear
-
 echo "╔════════════════════════════════════════════╗"
 echo "║              ARCAEA TERMINAL               ║"
 echo "╠════╦═══════════════════════════════════════╣"
@@ -12,7 +11,6 @@ echo "║  1 ║ Register New Account                  ║"
 echo "║  2 ║ Login to Existing Account             ║"
 echo "║  3 ║ Exit Arcaea Terminal                  ║"
 echo "╚════╩═══════════════════════════════════════╝"
-
 
 read -p "Enter option [1-3]: " option
 

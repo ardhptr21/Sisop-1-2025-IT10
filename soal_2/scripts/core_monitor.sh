@@ -7,4 +7,8 @@ if [ ! -d "$BASE_DIR" ]; then
     mkdir -p "$BASE_DIR"
 fi
 
-echo "[$(date +'%Y-%m-%d %H:%M:%S')] - Core Usage [$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage "%"}')] - Terminal Model [$(lscpu | grep 'Model name' | awk '{print substr($0, index($0, $3))}')]" >> "$BASE_DIR/../logs/core.log"
+CPU_Usage=$( top -bn2 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' | awk 'NR==2 {print $0}' )
+CPU_Model=$(lscpu | grep 'Model name' | awk -F': ' '{print $2}' | sed 's/^ //')
+
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] - Core Usage [$CPU_Usage] - Terminal Model [$CPU_Model]" >> "$BASE_DIR/core.log"
+

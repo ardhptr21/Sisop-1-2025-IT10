@@ -37,6 +37,7 @@ read -p "Enter username       : " username
 
 read -sp "Enter Password       : " password
 password_constraint ".$password"
+
 password_hash=$(echo -n "$password" | sha256sum | awk '{print $1}')
 echo ""
 

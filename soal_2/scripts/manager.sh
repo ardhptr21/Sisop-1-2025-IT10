@@ -47,9 +47,12 @@ function showCrontab {
 
 
 while true; do
-  clear
+clear
+username=$(cut -d ',' -f2 session.txt)
+
+   echo "Signed as $username"
   echo "╔═════════════════════════════════════════════════════╗"
-  echo "║              ARCAEA TERMINAL                        ║"
+  echo "║                  ARCAEA TERMINAL                    ║"
   echo "╠════╦════════════════════════════════════════════════╣"
   echo "║ ID ║ OPTION                                         ║"
   echo "╠════╬════════════════════════════════════════════════╣"
@@ -60,10 +63,9 @@ while true; do
   echo "║  5 ║ View All Scheduled Monitoring Jobs             ║"
   echo "║  6 ║ Exit Arcaea Terminal                           ║"
   echo "╚════╩════════════════════════════════════════════════╝"
-
   read -p "Enter option [1-6]: " option
 
-  case $option in
+    case $option in
     1) addCronCPU
         ;;
     2) addCronRAM
@@ -80,5 +82,5 @@ while true; do
         ;;
   esac
 
-  read -p "Press enter to return to terminal"
+read -p "Press enter to return to terminal"
 done
