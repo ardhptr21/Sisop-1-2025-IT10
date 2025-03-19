@@ -532,7 +532,7 @@ function info {
 }
 ```
 
-Dari script diatas pada intinya adalah pertama akan melakukan ignore terhadap baris pertama, karena baris pertama merupakan identify data dari file csv, lalu kemudian untuk mencari `Highes Adjusted Usage` melakukan perulangan untuk setiap datanya yaitu pada kolom kedua `$2+0`, fungsi +0 ini adalah agar column tersebut dianggap sebagai numeric value dan bukan sering value.
+Dari script diatas pada intinya adalah pertama akan melakukan ignore terhadap baris pertama, karena baris pertama merupakan identify data dari file csv, lalu kemudian untuk mencari `Highes Adjusted Usage` melakukan perulangan untuk setiap datanya yaitu pada kolom kedua `$2+0`, fungsi +0 ini adalah agar column tersebut dianggap sebagai numeric value dan bukan string value.
 
 Lalu untuk `Highest Raw Usage` masih sama logikanya, namun kali ini melakukan filtering pada kolom ketiga `$3+0`
 
